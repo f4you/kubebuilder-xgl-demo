@@ -1,0 +1,13 @@
+apiVersion: xglapp.xglapp.test/v1beta1
+kind: Xglwwebapp
+metadata:
+  labels:
+    app.kubernetes.io/name: kububuilder-xgl-demo
+    app.kubernetes.io/managed-by: kustomize
+  name: xglwwebapp-sample
+spec:
+  # TODO(user): Add fields here
+  image: nginx
+  replicas: 1
+  enable_ingress: false
+  enable_service: true
