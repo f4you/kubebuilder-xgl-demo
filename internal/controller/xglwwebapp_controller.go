@@ -42,6 +42,10 @@ type XglwwebappReconciler struct {
 // +kubebuilder:rbac:groups=xglapp.xglapp.test,resources=xglwwebapps/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=xglapp.xglapp.test,resources=xglwwebapps/finalizers,verbs=update
 
+// +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=core,resources=services,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=networking.k8s.io,resources=ingresses,verbs=get;list;watch;create;update;patch;delete
+
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
 // TODO(user): Modify the Reconcile function to compare the state specified by
@@ -75,13 +79,13 @@ func (r *XglwwebappReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 	} else {
 		// 检查并更新 Deployment 的副本数和其他可能的配置
 		needsUpdate := false
-
+		
 		// 检查副本数是否匹配
 		if *d.Spec.Replicas != app.Spec.Replicas {
 			*d.Spec.Replicas = app.Spec.Replicas
 			needsUpdate = true
 		}
-
+		
 		// 检查镜像是否匹配
 		currentImage := d.Spec.Template.Spec.Containers[0].Image
 		desiredImage := app.Spec.Image
@@ -89,7 +93,7 @@ func (r *XglwwebappReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 			d.Spec.Template.Spec.Containers[0].Image = desiredImage
 			needsUpdate = true
 		}
-
+		
 		if needsUpdate {
 			if err := r.Update(ctx, d); err != nil {
 				logger.Error(err, "unable to update Deployment")
@@ -164,9 +168,9 @@ func (r *XglwwebappReconciler) Reconcile(ctx context.Context, req ctrl.Request) 
 func (r *XglwwebappReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&xglappv1beta1.Xglwwebapp{}).
-		Owns(&v1.Deployment{}).  // 添加对 Deployment 的监控
-		Owns(&corev1.Service{}). // 添加对 Service 的监控
-		Owns(&netv1.Ingress{}).  // 添加对 Ingress 的监控
+		Owns(&v1.Deployment{}).       // 添加对 Deployment 的监控
+		Owns(&corev1.Service{}).      // 添加对 Service 的监控
+		Owns(&netv1.Ingress{}).       // 添加对 Ingress 的监控
 		Named("xglwwebapp").
 		Complete(r)
 }
