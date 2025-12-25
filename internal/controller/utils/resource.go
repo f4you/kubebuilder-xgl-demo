@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"github.com/f4you/kubebuilder-xgl-demo/api/v1beta1"
 	"bytes"
+	"github.com/f4you/kubebuilder-xgl-demo/api/v1beta1"
 	appv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	netv1 "k8s.io/api/networking/v1"
@@ -10,9 +10,8 @@ import (
 	"text/template"
 )
 
-
 func parseTemplate(templateName string, app *v1beta1.Xglwwebapp) []byte {
-	tmpl, err := template.ParseFiles("controllers/template/" + templateName + ".yml")
+	tmpl, err := template.ParseFiles("internal/controller/template/" + templateName + ".yml")
 	if err != nil {
 		panic(err)
 	}

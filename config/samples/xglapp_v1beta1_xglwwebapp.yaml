@@ -7,7 +7,8 @@ metadata:
   name: xglwwebapp-sample
 spec:
   # TODO(user): Add fields here
-  image: nginx
+  image: k8s.m.daocloud.io/nginx:latest
   replicas: 1
-  enable_ingress: false
+    #enable_ingress: false
+  enable_ingress: true
   enable_service: true

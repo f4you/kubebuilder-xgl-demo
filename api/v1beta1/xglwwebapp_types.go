@@ -33,10 +33,10 @@ type XglwwebappSpec struct {
 	// foo is an example field of Xglwwebapp. Edit xglwwebapp_types.go to remove/update
 	// +optional
 	// Foo *string `json:"foo,omitempty"`
-	EnableIngress bool `json:"enable_ingress,omitempty"`
-	EnableService bool `json:"enable_service"`
-	Replicas int32 `json:"replicas"`
-	Image string `json:"image"`
+	EnableIngress bool   `json:"enable_ingress,omitempty"`
+	EnableService bool   `json:"enable_service"`
+	Replicas      int32  `json:"replicas"`
+	Image         string `json:"image"`
 }
 
 // XglwwebappStatus defines the observed state of Xglwwebapp.
